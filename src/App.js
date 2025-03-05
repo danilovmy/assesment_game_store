@@ -131,11 +131,11 @@ function App() {
 
 const location = useLocation();
 
-if (location.pathname != "/Game-Store/" && location.pathname != "/Game-Store/browse" && selectedGame === false) {
-  let surname = location.pathname.substring(29);
-  console.log("test");
-  let currentGame = games.find(game => game.surname === surname);
-  if (currentGame != undefined) {
+if (location.pathname != "/" && location.pathname != "/Game-Store/" && location.pathname != "/Game-Store/browse" && selectedGame === false) {
+  let paths = location.pathname.split('/games/')
+  let surname = paths.length > 1? paths[1] : "";
+  let currentGame = surname && games.find(game => game.surname === surname);
+  if (currentGame) {
     setSelectedGame(currentGame);
   } else {
     setSelectedGame(templateGame);
@@ -212,7 +212,7 @@ const openGamePage = (e) => {
 }
 
 const handleHover = (e) => {
-  if (hoverState[e.target.id].selected) {
+  if (hoverState[e.target.id] && hoverState[e.target.id].selected) {
     return;
   }
 
@@ -224,7 +224,7 @@ const handleHover = (e) => {
       return element;
     }
   });
-    
+
   setHoverState(newHoverState);
 }
 
@@ -309,10 +309,10 @@ const handleRemoveFromCart = (e) => {
 
 const navigate = useNavigate();
 
-useEffect(()=> {
-  navigate('/Game-Store/');
+// useEffect(()=> {
+//   navigate('/Game-Store/');
 
-}, []);
+// }, []);
 
 useEffect(() => {
   setOverlap(false);
@@ -345,7 +345,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (cartDisplayed) {
-    document.body.style.overflow = "hidden !important";   
+    document.body.style.overflow = "hidden !important";
   } else {
     document.body.style.overflow = "scroll !important";
   }
@@ -354,10 +354,10 @@ useEffect(() => {
   return (
       <AnimatePresence exitBeforeEnter>
           <Routes key={location.pathname} location={location}>
-            <Route path="/Game-Store/" element={<Home 
-                                        handleHover={handleHover} 
-                                        hoverState={hoverState} 
-                                        shownGames={shownGames} 
+            <Route path="/Game-Store/" element={<Home
+                                        handleHover={handleHover}
+                                        hoverState={hoverState}
+                                        shownGames={shownGames}
                                         cart={cart}
                                         cartAmount={cartAmount}
                                         cartDisplayed={cartDisplayed}
@@ -374,16 +374,16 @@ useEffect(() => {
                                         setOverlap={setOverlap}
                                         openGamePage={openGamePage}
                                       />} />
-            <Route path="/Game-Store/browse" element={<Browse 
+            <Route path="/Game-Store/browse" element={<Browse
                                               cart={cart}
                                               cartAmount={cartAmount}
-                                              handleHover={handleHover} 
-                                              handleSelect={handleSelect} 
-                                              hoverState={hoverState} 
-                                              currentFilter={currentFilter} 
-                                              shownGames={shownGames} 
-                                              setShownGames={setShownGames} 
-                                              clearFilter={clearFilter} 
+                                              handleHover={handleHover}
+                                              handleSelect={handleSelect}
+                                              hoverState={hoverState}
+                                              currentFilter={currentFilter}
+                                              shownGames={shownGames}
+                                              setShownGames={setShownGames}
+                                              clearFilter={clearFilter}
                                               reviewDisplay={reviewDisplay}
                                               setReviewDisplay={setReviewDisplay}
                                               allGames={allGames}
@@ -414,7 +414,7 @@ useEffect(() => {
                                                hoverState={hoverState}
                                                handleLike={handleLike}
                                                handleAddToCart={handleAddToCart}
-                                               handleSelectGame={handleSelectGame} 
+                                               handleSelectGame={handleSelectGame}
                                                selectedGame={selectedGame}
                                                setSelectedGame={setSelectedGame}
                                                handleSearch={handleSearch}
@@ -437,7 +437,7 @@ useEffect(() => {
                                                handleRemoveFromCart={handleRemoveFromCart}
                                                openGamePage={openGamePage}
                                             />} />
-            <Route path="*" element={<NotFound 
+            <Route path="*" element={<NotFound
                             cartDisplayed={cartDisplayed}
                             handleCloseCart={handleCloseCart}
                             handleOpenCart={handleOpenCart}

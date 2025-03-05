@@ -38,12 +38,15 @@ const Home = props => {
   const navigate = useNavigate();
 
   const handleHover = (e) => {
-    let newHoverState = hoverState[e.target.id];
-    newHoverState.hovered = !newHoverState.hovered;
+    if (hoverState[e.target.id]) {
+      let newHoverState = hoverState[e.target.id];
 
-    setHoverState([
-        ...hoverState, hoverState[e.target.id] = newHoverState
-    ]);
+      newHoverState.hovered = !newHoverState.hovered;
+
+      setHoverState([
+          ...hoverState, hoverState[e.target.id] = newHoverState
+      ]);
+    };
   }
 
   const handleBrowse = () => {
@@ -56,22 +59,22 @@ const Home = props => {
 
   const handleHome = () => {
     setBrowsing(false);
-    navigate('/');
+    navigate('/Game-Store/');
   }
 
   const handleNavGamePage = () => {
     setHoverState([...hoverState, hoverState[21].hovered = false]);
     navigate('/Game-Store/games/riseofthetombraider');
   }
-  
+
   const handleNavNotFoundPage = () => {
     navigate('/Game-Store/this-page');
   }
-  
+
   const handleNavNotFoundQuery = () => {
     navigate('/Game-Store/games/404');
   }
-  
+
   const handlePlayDice = () => {
     let randomIndex = Math.floor(Math.random() * 32);
     let randomSurname = games[randomIndex].surname;
@@ -89,19 +92,19 @@ const Home = props => {
 
   return (
     <div className={styles.main}>
-      {overlap ? 
-          <motion.div 
+      {overlap ?
+          <motion.div
             className={styles.overlap}
             variants={buttonVariants}
             initial="hidden"
             animate="visible"
           >
-    
-          </motion.div> 
+
+          </motion.div>
       : null}
 
-      {cartDisplayed ? <Cart 
-              cartDisplayed={cartDisplayed} 
+      {cartDisplayed ? <Cart
+              cartDisplayed={cartDisplayed}
               handleOpenCart={handleOpenCart}
               handleCloseCart={handleCloseCart}
               cart={cart}
@@ -118,8 +121,8 @@ const Home = props => {
                   <source src={require("../../Resources/image/pyke.mp4")} type="video/mp4" />
                 </video>
 
-                <NavBar 
-                  handleHover={handleHover} 
+                <NavBar
+                  handleHover={handleHover}
                   hoverState={hoverState}
                   browsing={browsing}
                   handleBrowse={handleBrowse}
@@ -135,7 +138,7 @@ const Home = props => {
                           <h1>Game Store</h1>
                           <p className={styles.intro}>The best destination to buy new games to competitive prices. 24 hour support, "best price" guarantee and a flawless UX. Wish for more? Tell us <span className={styles.here}>below</span> — or check out our <span className={styles.careers}>careers.</span></p>
                         </div>
-    
+
                         <div className={styles.buttons}>
                               <button className={`${styles.cta} ${styles.browseBtn}`} onClick={handleBrowse} aria-label="Browse">
                                 <Enter className={styles.ctaSVG} />
@@ -157,7 +160,7 @@ const Home = props => {
                               {/* </a> */}
                         </div>
                     </div>
-    
+
                     <div className={styles.right}>
                         <div className={styles.buttonsRight}>
                             <h2>Quick Navigation</h2>
@@ -181,7 +184,7 @@ const Home = props => {
                               <Performance className={`${styles.ctaSVG}`} />
                               Performance
                             </button></a>
-                            <a href="https://bitbucket.org/sunt71692/game-store/src/main/README.md#technologies-used" target="_blank"><button className={`${styles.cta} ${styles.lastChild}`} aria-label="View technologies used"> 
+                            <a href="https://bitbucket.org/sunt71692/game-store/src/main/README.md#technologies-used" target="_blank"><button className={`${styles.cta} ${styles.lastChild}`} aria-label="View technologies used">
                               <img className={styles.technologies} src={require("../../Resources/image/whatruns.png")} alt="WhatRuns logo"/>
                               Technologies
                             </button></a>
